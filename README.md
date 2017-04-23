@@ -5,16 +5,16 @@ A simple check in application using SMS to engage participants at an event. Send
 # Developers
 
 ## Getting Started
-* Install Python with pip and virtual environments
-* Install requirements `pip install -r requirements/development.txt`
+- Install Python with pip and virtual environments
+- Install requirements `pip install -r requirements/development.txt`
 
 ## Run Migrations
-`python manage.py migrate`
-`python manage.py createsuperuser`
+- `python manage.py migrate`
+- `python manage.py createsuperuser`
 
 ## Run Server
-`python manage.py runserver`
-Open http://localhost:8000/
+- `python manage.py runserver`
+- Open http://localhost:8000/
 
 # Deployment
 
