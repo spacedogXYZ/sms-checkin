@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event }}{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="page-header">
+        <h1>{{ event.name }}</h1>
+      </div>
+
+      <dl class="dl-horizontal">
+        <dt><strong>Starts:</strong></dt>
+        <dd>{{ event.starts_at }}</dd>
+        <dt><strong>Ends:</strong></dt>
+        <dd>{{ event.ends_at }}</dd>
+        <dt><strong>Time zone:</strong></dt>
+        <dd>{{ event.time_zone }}</dd>
+      </dl>
+
+      <div class="col-md-6">
+        <div class="jumbotron invert">
+          <div class="jumbotron-contents">
+            <h1>{{ event.participant_set.count | default:0 }}</h1>
+            <h2>invited</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="jumbotron invert">
+          <div class="jumbotron-contents">
+            <h1>{{ event.confirmation_set.count | default:0 }}</h1>
+            <h2>confirmed</h2>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

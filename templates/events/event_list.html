@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Upcoming Events{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+
+      <div class="page-header">
+        <h1>Upcoming Events</h1>
+      </div>
+
+      {% if not object_list %}
+        <p><strong>No upcoming events.</strong>
+      {% endif %}
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>When</th>
+            <th>Participants</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in object_list %}
+            <tr>
+              <td><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></td>
+              <td>{{ event.starts_at }} - {{ event.ends_at }} ({{ event.time_zone }})</td>
+              <td>{{ event.participants }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

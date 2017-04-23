@@ -1,0 +1,70 @@
+{% load bootstrap3 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock title %} - SMS CheckIn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- CSS -->
+    {% bootstrap_css %}
+    <link href="{% static 'bootflat/css/bootflat.min.css' %}" rel="stylesheet">
+    <link href="{% static 'sms_checkin/css/base.css' %}" rel="stylesheet">
+
+    {% block page_css %}{% endblock %}
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">SMS Check In</a>
+        <div class="navbar-collapse collapse navbar-responsive-collapse pull-right">
+          <ul class="nav navbar-nav">
+            <li><a href="/admin">Admin</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block content %}{% endblock content %}
+
+    </div> <!-- /container -->
+
+    <footer class="sticky">
+      <div class="container">
+        <p class="text-muted">&copy; Affinity Works 2017</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    {% bootstrap_javascript jquery=1 %}
+
+    {% block page_js %}{% endblock %}
+
+  </body>
+
+</html>

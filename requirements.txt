@@ -1,0 +1,3 @@
+# Mirror production requirements
+# because Heroku automatic build process isn't overrideable
+-r requirements/production.txt
