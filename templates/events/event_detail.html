@@ -5,37 +5,41 @@
 {% block content %}
   <div class="row">
     <div class="col-lg-9">
+
       <div class="page-header">
-        <h1>{{ event.name }}</h1>
+        <h1>Event Attendance</h1>
       </div>
 
-      <dl class="dl-horizontal">
-        <dt><strong>Starts:</strong></dt>
-        <dd>{{ event.starts_at }}</dd>
-        <dt><strong>Ends:</strong></dt>
-        <dd>{{ event.ends_at }}</dd>
-        <dt><strong>Time zone:</strong></dt>
-        <dd>{{ event.time_zone }}</dd>
-      </dl>
+      <div class="row">
+        <div class="col-xs-9">{{ event.name }} {%if event.location%}at {{event.location}}{%endif%} {% if event.host_name %} hosted by {{event.host_name}}{%endif%}</div>
 
-      <div class="col-md-6">
-        <div class="jumbotron invert">
-          <div class="jumbotron-contents">
-            <h1>{{ event.participant_set.count | default:0 }}</h1>
-            <h2>invited</h2>
-          </div>
-        </div>
+        <div class="col-xs-3"><span class="label label-info">&check;</span> {{ event.rsvps.count }} RSVPs</div>
       </div>
 
-      <div class="col-md-6">
-        <div class="jumbotron invert">
-          <div class="jumbotron-contents">
-            <h1>{{ event.confirmation_set.count | default:0 }}</h1>
-            <h2>confirmed</h2>
-          </div>
-        </div>
-      </div>
-
+      <table class="table table-striped pushdown-20">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Attending</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for participant in event.participant_set.all %}
+            <tr>
+              <td>{{participant.name}}<br>
+              {{participant.email}}, {{participant.phone}}
+              </td>
+              <td>
+                <div class="btn-group btn-toggle btn-nohover">
+                  <button type="button" class="btn btn-default {%if participant.confirmed == True%} active{%endif%}">Y</button>
+                  <button type="button" class="btn btn-default {%if participant.confirmed == None%} active{%endif%}">?</button>
+                  <button type="button" class="btn btn-default {%if participant.confirmed == False%} active{%endif%}">N</button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endblock %}

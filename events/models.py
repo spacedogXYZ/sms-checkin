@@ -29,6 +29,9 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('view_event', args=[str(self.id)])
 
+    def rsvps(self):
+        return self.participant_set.filter(confirmed=True)
+
 
 class Participant(models.Model):
     name = models.CharField(max_length=150)
@@ -36,6 +39,7 @@ class Participant(models.Model):
     email = models.EmailField()
 
     event = models.ForeignKey(Event)
+    confirmed = models.NullBooleanField(default=None)
     
     def __str__(self):
         return 'Participant #{0} - {1}'.format(self.pk, self.name)

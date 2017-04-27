@@ -9,7 +9,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('name', 'starts_at', 'ends_at')
 
 class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'email')
+    list_display = ('name', 'phone', 'email', 'confirmed')
 
 
 admin.site.register(Event, EventAdmin)
