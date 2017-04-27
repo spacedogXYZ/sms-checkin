@@ -26,3 +26,18 @@ footer.sticky {
 	text-align: center;
 	font-size: 3em;
 }
+
+.btn-nohover .btn:hover {
+	cursor: default;
+	color: inherit;
+	background-color: inherit;
+	border-color: inherit;
+	outline: inherit;
+}
+.btn-nohover .btn:active {
+	box-shadow: inherit;
+}
+
+.pushdown-20 {
+	margin-top: 20px;
+}

@@ -11,6 +11,9 @@ from reminders.models import Prompt
 
 class Event(models.Model):
     name = models.CharField(max_length=150)
+    location = models.CharField(max_length=150, null=True)
+    host_name = models.CharField(max_length=150, null=True)
+
     starts_at = models.DateTimeField()
     ends_at = models.DateTimeField()
     time_zone = TimeZoneField(default='US/Pacific')

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Upcoming Events{% endblock title %}
+{% block title %}Event Attendance{% endblock title %}
 
 {% block content %}
   <div class="row">
     <div class="col-lg-9">
 
       <div class="page-header">
-        <h1>Upcoming Events</h1>
+        <h1>Event Attendance</h1>
       </div>
 
       {% if not object_list %}
@@ -20,15 +20,16 @@
             <th>Name</th>
             <th>When</th>
             <th>Participants</th>
-
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {% for event in object_list %}
             <tr>
-              <td><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></td>
+              <td><a href="{{ event.get_absolute_url }}">{{ event.name }} {%if event.location%}at {{event.location}}{%endif%} {% if event.host_name %} hosted by {{event.host_name}}{%endif%}</a></td>
               <td>{{ event.starts_at }} - {{ event.ends_at }} ({{ event.time_zone }})</td>
-              <td>{{ event.participants }}</td>
+              <td><span class="label label-info">&check;</span> {{ event.rsvps.count }} RSVPs</td>
+              <td><a href="{{ event.get_absolute_url }}" class="btn btn-primary">View RSVPs</a></td>
             </tr>
           {% endfor %}
         </tbody>
