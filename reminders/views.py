@@ -65,6 +65,6 @@ def incoming_message(request):
                 r.message("Your rating is reset. Please reply with a number 1-3 rating the event.")
                 return r
             else:
-                r.message("We're all done. If you'd like to reset your event rating, reply RESET")
+                r.message("We're all done. If you'd like to reset your event rating, reply RESET.")
                 return r
     return r

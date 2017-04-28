@@ -48,7 +48,7 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     'messages',
-    'reminders',
+    'reminders.apps.RemindersConfig',
     'events', 
 )
 
@@ -142,3 +142,4 @@ STATICFILES_DIRS = [
 # twilio credentials
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_MESSAGING_SID = os.environ.get('TWILIO_MESSAGING_SID')
