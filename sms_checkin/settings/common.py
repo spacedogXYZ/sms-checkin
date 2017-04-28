@@ -40,7 +40,7 @@ DJANGO_APPS = (
 )
 
 THIRD_PARTY_APPS = (
-    'bootstrap3',
+    'bootstrap4',
     'phonenumber_field',
     'timezone_field',
     'django_q'

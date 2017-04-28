@@ -1,68 +1,53 @@
-{% extends "base.html" %}
+{% extends "events/events_base.html" %}
 
 {% block title %}{{ event }}{% endblock title %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-lg-9">
+  <div class="list-group-item">
+    <div class="col-8">
+      <a href="{{event.get_absolute_url}}">{{ event.name }}</a> {%if event.location%}</a>at {{event.location}}{%endif%} {% if event.host_name %} hosted by {{event.host_name}}{%endif%}
+    </div>
 
-      <div class="page-header">
-        <h1>Event Attendance</h1>
-      </div>
+    <div class="col-2">
+      <span class="label label-info">&check;</span> {{ event.participant_set.count }} RSVPs
+    </div>
+    
+    {% if request.user.is_authenticated%}
+    <div class="col-2">
+      <span class="label label-info">&bigstar;</span> {{ event.ratings.rating__avg|floatformat| default:'?' }} Rating
+    </div>
+    {%endif%}
+  </div>
 
-      <div class="row margin-bottom-20">
-        <div class="col-xs-8">{{ event.name }} {%if event.location%}at {{event.location}}{%endif%} {% if event.host_name %} hosted by {{event.host_name}}{%endif%}</div>
-
-        <div class="col-xs-4">
-          <div class="row">
-            <div class="col-sm-6 margin-bottom-10">
-              <span class="label label-info">&check;</span> {{ event.participant_set.count }} RSVPs
-            </div>
-            {% if request.user.is_authenticated%}
-            <div class="col-sm-6">
-              <span class="label label-info">&bigstar;</span> {{ event.ratings.rating__avg|floatformat| default:'?' }} Rating
-            </div>
-            {%endif%}
-          </div>
-        </div>
-        
-      </div>
-
+    <div class="container">
       {% if request.user.is_authenticated %}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Confirmed</th>
-            <th>Rating</th>
-          </tr>
-        </thead>
-        <tbody>
+        <div class="list-group">
           {% for attendance in event.attendance_set.all %}
-            <tr>
-              <td>{{attendance.participant.name}}<br>
-              {{attendance.participant.email}}, {{attendance.participant.phone}}
-              </td>
-              <td>
-                <div class="btn-group btn-toggle btn-nohover">
-                  <button type="button" class="btn btn-default {%if attendance.confirmed == True%} active{%endif%}">Y</button>
-                  <button type="button" class="btn btn-default {%if attendance.confirmed == None%} active{%endif%}">?</button>
-                  <button type="button" class="btn btn-default {%if attendance.confirmed == False%} active{%endif%}">N</button>
-                </div>
-              </td>
-            <td>
-              <div class="btn-group btn-nohover">
-                <button type="button" class="btn btn-default {%if attendance.rating%}active{%endif%}">{{attendance.rating | default:'?' }}</button>
+            <div class="list-group-item">
+              <div class="col-8">
+                <div class="row">{{attendance.participant.name}}</div>
+                <div class="row"><small>{{attendance.participant.email}}, {{attendance.participant.phone}}</small></div>
               </div>
-            </td>
-          </tr>
+              <div class="col-2">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-{%if attendance.confirmed == True%}success{%else%}secondary{%endif%}">Y</button>
+                  <button type="button" class="btn btn-{%if attendance.confirmed == None%}warning{%else%}secondary{%endif%}">?</button>
+                  <button type="button" class="btn btn-{%if attendance.confirmed == False%}danger{%else%}secondary{%endif%}">N</button>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-secondary {%if attendance.rating%}active{%endif%}">{{attendance.rating | default:'?' }}</button>
+                </div>
+              </div>
+            </div>              
+          </div>
           {% endfor %}
-        </tbody>
-      </table>
+        </div>
       {% else %}
       <div class="row">
-        <div class="col-md-6">
-          <div class="jumbotron invert">
+        <div class="col-6">
+          <div class="jumbotron">
             <div class="jumbotron-contents">
               <h1>{{ event.confirmed.count | default:0 }}</h1>
               <h2>Confirmed</h2>
@@ -70,8 +55,8 @@
           </div>
         </div>
 
-        <div class="col-md-6">
-          <div class="jumbotron invert">
+        <div class="col-6">
+          <div class="jumbotron">
             <div class="jumbotron-contents">
               <h1>{{ event.ratings.rating__avg|floatformat | default:'?' }}</h1>
               <h2>Rating</h2>
