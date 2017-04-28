@@ -11,6 +11,10 @@ for key in REQUIRED_KEYS:
     if not key in os.environ:
         raise AttributeError('Please define %s in os.environ' % key)
 
+# static files
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 # django-redis cache and broker
 CACHES = {
     "default": {
