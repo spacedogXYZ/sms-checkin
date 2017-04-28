@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
+from django.db.models import Avg, Count
 
 from django.db import models
 from timezone_field import TimeZoneField
@@ -36,6 +37,10 @@ class Event(models.Model):
     @property
     def confirmed(self):
         return self.attendance_set.filter(confirmed=True)
+
+    @property
+    def ratings(self):
+        return self.attendance_set.filter(rating__isnull=False).annotate(Count('id')).aggregate(Avg('rating'))
 
 
 class Participant(models.Model):

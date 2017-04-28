@@ -13,7 +13,7 @@ footer.sticky {
 }
 
 .jumbotron.invert .jumbotron-contents {
-	background: #264348;
+	background: #434A54;
 	color: white;
 }
 
@@ -42,6 +42,10 @@ h1, .h1 {
 	box-shadow: inherit;
 }
 
-.pushdown-20 {
-	margin-top: 20px;
+.margin-bottom-20 {
+	margin-bottom: 20px;
+}
+
+.margin-bottom-10 {
+	margin-bottom: 10px;
 }
