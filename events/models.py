@@ -29,8 +29,13 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('view_event', args=[str(self.id)])
 
-    def rsvps(self):
-        return self.participant_set.filter(confirmed=True)
+    @property
+    def participants(self):
+        return [a.participant for a in self.attendance_set.select_related('participant')]
+
+    @property
+    def confirmed(self):
+        return self.attendance_set.filter(confirmed=True)
 
 
 class Participant(models.Model):
@@ -38,8 +43,20 @@ class Participant(models.Model):
     phone = PhoneNumberField()
     email = models.EmailField()
 
-    event = models.ForeignKey(Event)
-    confirmed = models.NullBooleanField(default=None)
+    event = models.ManyToManyField(Event, through='Attendance')
     
     def __str__(self):
         return 'Participant #{0} - {1}'.format(self.pk, self.name)
+
+    @property
+    def attending(self):
+        return [a for a in self.attendance_set.select_related('event').order_by('event__ends_at')]
+
+class Attendance(models.Model):
+    participant = models.ForeignKey(Participant)
+    event = models.ForeignKey(Event)
+    confirmed = models.NullBooleanField(default=None, blank=True, null=True)
+    rating = models.IntegerField(default=None, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "attending"

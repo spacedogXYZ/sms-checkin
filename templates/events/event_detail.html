@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-xs-9">{{ event.name }} {%if event.location%}at {{event.location}}{%endif%} {% if event.host_name %} hosted by {{event.host_name}}{%endif%}</div>
 
-        <div class="col-xs-3"><span class="label label-info">&check;</span> {{ event.rsvps.count }} RSVPs</div>
+        <div class="col-xs-3"><span class="label label-info">&check;</span> {{ event.participant_set.count }} RSVPs</div>
       </div>
 
       <table class="table table-striped pushdown-20">
@@ -24,16 +24,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for participant in event.participant_set.all %}
+          {% for attendance in event.attendance_set.all %}
             <tr>
-              <td>{{participant.name}}<br>
-              {{participant.email}}, {{participant.phone}}
+              <td>{{attendance.participant.name}}<br>
+              {{attendance.participant.email}}, {{attendance.participant.phone}}
               </td>
               <td>
                 <div class="btn-group btn-toggle btn-nohover">
-                  <button type="button" class="btn btn-default {%if participant.confirmed == True%} active{%endif%}">Y</button>
-                  <button type="button" class="btn btn-default {%if participant.confirmed == None%} active{%endif%}">?</button>
-                  <button type="button" class="btn btn-default {%if participant.confirmed == False%} active{%endif%}">N</button>
+                  <button type="button" class="btn btn-default {%if attendance.confirmed == True%} active{%endif%}">Y</button>
+                  <button type="button" class="btn btn-default {%if attendance.confirmed == None%} active{%endif%}">?</button>
+                  <button type="button" class="btn btn-default {%if attendance.confirmed == False%} active{%endif%}">N</button>
                 </div>
               </td>
             </tr>

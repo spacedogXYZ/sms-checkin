@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'NotAGoodSecretKey')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '.ngrok.io', 'affinity-sms-checkin.herokuapp.com']
 
 
 # Application definition
@@ -42,11 +42,11 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'bootstrap3',
     'phonenumber_field',
-    'django_twilio',
     'timezone_field'
 )
 
 LOCAL_APPS = (
+    'messages',
     'reminders',
     'events', 
 )
