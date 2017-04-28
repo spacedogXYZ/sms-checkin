@@ -6,10 +6,13 @@ from twilio.rest import Client
 from django.shortcuts import render
 from django.conf import settings
 
+import logging
+logger = logging.getLogger(__name__)
 
 def send_message(to_number, body):
     twilio_client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
+    logger.info('send_message to %s: %s' % (to_number, body))
     message = twilio_client.messages.create(
         body=body,
         to=to_number,
