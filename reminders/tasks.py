@@ -29,13 +29,18 @@ def schedule_attendance_prompts(attendance):
             args=(attendance.participant.phone.as_e164, message_after),
         )
 
-    # set prompt send time in event timezone, with offset
-    event_start = arrow.get(event.starts_at, event.time_zone)
+    # set prompt send times, with minutes offset
+    # localized to event time_zone
+    
+    # NOTE: don't just put timezone in arrow, arrow.get(datetime_with_tz, other_timezone)
+    # pytz will mess it up, http://bugs.python.org/issue22994
+
+    event_start = arrow.get(event.time_zone.localize(event.starts_at.replace(tzinfo=None)))
     first_prompt_schedule.next_run = event_start.replace(minutes=+event.prompt_before.minutes_offset).to('utc').datetime
     first_prompt_schedule.repeats = 0
     logger.info('first_prompt_scheduled at: %s' % first_prompt_schedule.next_run)
     
-    event_end = arrow.get(event.ends_at, event.time_zone)
+    event_end = arrow.get(event.time_zone.localize(event.ends_at.replace(tzinfo=None)))
     second_prompt_schedule.next_run = event_end.replace(minutes=+event.prompt_after.minutes_offset).to('utc').datetime
     second_prompt_schedule.repeats = 0
     logger.info('second_prompt_schedule at: %s' % second_prompt_schedule.next_run)
