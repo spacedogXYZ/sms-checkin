@@ -33,7 +33,7 @@
       <div class="row">
         <div class="col-10">
           <h2>
-            <a href="/" class="affinity-logo"><img src="{% static 'affinity/images/affinity-logo.svg' %}" width="300"></a>
+            <a href="/" class="affinity-logo"><img src="{% static 'sms_checkin/images/affinity-logo.svg' %}" width="300"></a>
             <small> Affinity </small>
           </h2>
         </div>
@@ -42,7 +42,7 @@
           <div class="dropdown">
             {% if request.user.is_authenticated %}
             <a class="btn btn-secondary dropdown-toggle" href="/" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="{% static 'affinity/images/jane_doe.jpg' %}">
+              <img src="{% static 'sms_checkin/images/jane_doe.jpg' %}">
               <span>
               {% if request.user.first_name or request.user.last_name%}
                   {{ request.user.first_name }} {{ request.user.last_name }}

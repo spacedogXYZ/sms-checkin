@@ -12,8 +12,8 @@ for key in REQUIRED_KEYS:
         raise AttributeError('Please define %s in os.environ' % key)
 
 # static files
+STATICFILES_STORAGE = 'sms_checkin.storage.NoStrictCompressedManifestStaticFilesStorage'
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # django-redis cache and broker
 CACHES = {
