@@ -9,14 +9,14 @@ from django.shortcuts import render
 from events.models import Participant
 from messages.decorators import twilio_view
 from messages.requests import decompose
-from messages.parsers import is_yes, is_no, is_number, is_reset
+from messages.parsers import ParseMessage
 
 
 @twilio_view
 def incoming_message(request):
     r = MessagingResponse()
     twilio_request = decompose(request)
-    message = twilio_request.body
+    message = ParseMessage(twilio_request.body)
 
     # get participant from phone number
     try:
@@ -33,12 +33,12 @@ def incoming_message(request):
 
     if not attendance.confirmed:
         # check in
-        if is_yes(message):
+        if message.is_yes():
             attendance.confirmed = True
             attendance.save()
             r.message("Thanks for checking in to %s!" % attendance.event.name)
             return r
-        elif is_no(message):
+        elif message.is_no():
             attendance.confirmed = False
             attendance.save()
             r.message("Sorry you won't be able to make it to %s." % attendance.event.name)
@@ -50,7 +50,7 @@ def incoming_message(request):
     else:
         if not attendance.rating:
             # rate event
-            if is_number(message):
+            if message.is_number():
                 attendance.rating = int(message)
                 attendance.save()
                 r.message("Thanks for rating the event.")
@@ -59,7 +59,7 @@ def incoming_message(request):
                 r.message("Please reply with a number 1-3 rating the event.")
                 return r
         else:
-            if is_reset(message):
+            if message.is_reset():
                 attendance.rating = None
                 attendance.save()
                 r.message("Your rating is reset. Please reply with a number 1-3 rating the event.")

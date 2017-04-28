@@ -8,33 +8,33 @@ def match(regex, string):
     else:
         return False
 
-def is_yes(message):
-    message = message.strip()
-    return (False or 
-        match('yes', message) or
-        match('^yes', message) or
-        match('^y$', message) or
-        match('^y(e)?a(h)?', message) or
-        match('^o?k(ay)?$', message) or
-        match('^sure', message))
+class ParseMessage(object):
+    def __init__(self, body):
+        self.body = body.strip()
 
-def is_no(message):
-    message = message.strip()
-    return (False or 
-        match('^no(pe)?', message) or
-        match('^n$', message) or
-        match('^nah', message))
+    def is_yes(self):
+        return (False or 
+            match('yes', self.body) or
+            match('^yes', self.body) or
+            match('^y$', self.body) or
+            match('^y(e)?a(h)?', self.body) or
+            match('^o?k(ay)?$', self.body) or
+            match('^sure', self.body))
 
-def is_number(message):
-    message = message.strip()
-    if message.isdigit():
-        return int(message)
-    else:
-        return False
+    def is_no(self):
+        return (False or 
+            match('^no(pe)?', self.body) or
+            match('^n$', self.body) or
+            match('^nah', self.body))
 
-def is_reset(message):
-    message = message.strip()
-    return (False or 
-        match('^reset$', message) or
-        match('^restart$', message) or
-        match('^again$', message))
+    def is_number(self):
+        if self.body.isdigit():
+            return int(self.body)
+        else:
+            return False
+
+    def is_reset(self):
+        return (False or 
+            match('^reset$', self.body) or
+            match('^restart$', self.body) or
+            match('^again$', self.body))
