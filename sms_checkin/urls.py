@@ -10,3 +10,4 @@ urlpatterns = [
     url(r'^sms/message/$', incoming_message),
     url(r'^admin/', admin.site.urls),
 ]
+admin.site.site_header = 'Affinity SMS Admin'
