@@ -30,11 +30,11 @@ LOGGING = {
         },
     },
     'loggers': {
-        'sms': {
+        'reminders': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
-        'journal': {
+        'models': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
