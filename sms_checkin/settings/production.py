@@ -29,3 +29,14 @@ Q_CLUSTER = {
     'django_redis': 'default',
     'catch_up': False  # do not replay missed schedules past
 }
+
+
+INTERNAL_IPS = ['127.0.0.1', ]
+CORS_ORIGIN_WHITELIST = (
+    'localhost:4000',
+)
+
+if 'SENTRY_DSN' in os.environ:
+    import raven
+    INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
+    RAVEN_CONFIG = { 'dsn': os.environ.get('SENTRY_DSN') }
