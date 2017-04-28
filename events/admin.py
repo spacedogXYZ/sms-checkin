@@ -6,7 +6,7 @@ from django.contrib import admin
 from .models import Event, Participant, Attendance
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('name', 'starts_at', 'ends_at')
+    list_display = ('name', 'get_starts_at', 'get_ends_at')
 
 class AttendanceAdmin(admin.TabularInline):
     model = Attendance

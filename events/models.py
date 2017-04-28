@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
-
 from django.db import models
+from django.utils import timezone
+
 from timezone_field import TimeZoneField
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -15,10 +16,10 @@ class Event(models.Model):
     location = models.CharField(max_length=150, null=True)
     host_name = models.CharField(max_length=150, null=True)
 
-    starts_at = models.DateTimeField()
-    ends_at = models.DateTimeField()
     time_zone = TimeZoneField(default='US/Pacific')
-
+    starts_at = models.DateTimeField(verbose_name="Starts at (local)")
+    ends_at = models.DateTimeField(verbose_name="Ends at (local)")
+    
     created = models.DateTimeField(auto_now_add=True)
 
     prompt_before = models.ForeignKey(Prompt, related_name='+', null=True)
@@ -45,17 +46,20 @@ class Event(models.Model):
     def get_starts_at(self):
         """Returns event.starts_at in specified event.time_zone"""
         # NOTE: don't just force timezone into datetime
-        # pytz will mess it up, http://bugs.python.org/issue22994
-        # use localize instead
+        # DST will mess it up, http://bugs.python.org/issue22994
+        # use time_zone.localize instead
         starts_at_naive = self.starts_at.replace(tzinfo=None)
         starts_at_local = self.time_zone.localize(starts_at_naive)
         return starts_at_local
+    get_starts_at.short_description = "Starts at (%s)" % timezone.get_current_timezone_name()
+    # this displays in django admin, which converts to server time before display
 
     def get_ends_at(self):
         """Returns event.ends_at in specified event.time_zone"""
         ends_at_naive = self.ends_at.replace(tzinfo=None)
         ends_at_local = self.time_zone.localize(ends_at_naive)
         return ends_at_local
+    get_ends_at.short_description = "Ends at (%s)" % timezone.get_current_timezone_name()
 
 
 class Participant(models.Model):
