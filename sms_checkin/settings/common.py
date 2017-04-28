@@ -42,7 +42,8 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'bootstrap3',
     'phonenumber_field',
-    'timezone_field'
+    'timezone_field',
+    'django_q'
 )
 
 LOCAL_APPS = (
