@@ -17,6 +17,9 @@ A simple check in application using SMS to engage participants at an event. Send
 - Open http://localhost:8000/
 
 # Deployment
+- set environment variables:
+	- SECRET_KEY=[some long random string](https://docs.djangoproject.com/en/1.11/ref/settings/#secret-key)
+	- DJANGO_SETTINGS_MODULE=sms_checkin.settings.production
 
 ## Heroku
 - Postgres
@@ -25,3 +28,4 @@ A simple check in application using SMS to engage participants at an event. Send
 
 ## Twilio
 - Messaging
+-- setup your desired phone number to point to https://APP.herokuapp.com/sms/messages/
