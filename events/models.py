@@ -42,6 +42,21 @@ class Event(models.Model):
     def ratings(self):
         return self.attendance_set.filter(rating__isnull=False).annotate(Count('id')).aggregate(Avg('rating'))
 
+    def get_starts_at(self):
+        """Returns event.starts_at in specified event.time_zone"""
+        # NOTE: don't just force timezone into datetime
+        # pytz will mess it up, http://bugs.python.org/issue22994
+        # use localize instead
+        starts_at_naive = self.starts_at.replace(tzinfo=None)
+        starts_at_local = self.time_zone.localize(starts_at_naive)
+        return starts_at_local
+
+    def get_ends_at(self):
+        """Returns event.ends_at in specified event.time_zone"""
+        ends_at_naive = self.ends_at.replace(tzinfo=None)
+        ends_at_local = self.time_zone.localize(ends_at_naive)
+        return ends_at_local
+
 
 class Participant(models.Model):
     name = models.CharField(max_length=150)
