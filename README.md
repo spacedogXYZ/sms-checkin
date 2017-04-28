@@ -28,4 +28,6 @@ A simple check in application using SMS to engage participants at an event. Send
 
 ## Twilio
 - Messaging
--- setup your desired phone number to point to https://APP.herokuapp.com/sms/messages/
+	- create a new [Twilio messaging service](https://www.twilio.com/console/sms/dashboard) with Inbound Request URL https://APP.herokuapp.com/sms/messages/ as HTTP POST
+	- connect one or more phone numbers to your new Twilio messaging service
+	- set environment variables TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_MESSAGING_SID

@@ -13,7 +13,7 @@ from messages.parsers import is_yes, is_no, is_number, is_reset
 
 
 @twilio_view
-def message(request):
+def incoming_message(request):
     r = MessagingResponse()
     twilio_request = decompose(request)
     message = twilio_request.body
