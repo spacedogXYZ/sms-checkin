@@ -43,6 +43,7 @@ THIRD_PARTY_APPS = (
     'bootstrap4',
     'phonenumber_field',
     'timezone_field',
+    'bulk_admin',
     'django_q'
 )
 
