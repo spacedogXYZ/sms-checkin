@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from twilio.rest import Client
-
-from django.shortcuts import render
 from django.conf import settings
+
+from twilio.rest import Client
 
 import logging
 logger = logging.getLogger(__name__)

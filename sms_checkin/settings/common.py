@@ -49,7 +49,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'messages',
     'reminders.apps.RemindersConfig',
-    'events', 
+    'events.apps.EventsConfig', 
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -143,3 +143,7 @@ STATICFILES_DIRS = [
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 TWILIO_MESSAGING_SID = os.environ.get('TWILIO_MESSAGING_SID')
+
+# affinity credentials
+AFFINITY_URL_BASE = os.environ.get('AFFINITY_URL_BASE', 'http://dev-advocacycommons.herokuapp.com')
+HTTP_OSDI_API_TOKEN = os.environ.get('HTTP_OSDI_API_TOKEN')

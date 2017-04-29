@@ -13,8 +13,9 @@ from reminders.models import Prompt
 
 class Event(models.Model):
     name = models.CharField(max_length=150)
-    location = models.CharField(max_length=150, null=True)
-    host_name = models.CharField(max_length=150, null=True)
+    location = models.CharField(max_length=150, null=True, blank=True)
+    host_name = models.CharField(max_length=150, null=True, blank=True)
+    crm_id = models.IntegerField(null=True, verbose_name="CRM id")
 
     time_zone = TimeZoneField(default='US/Pacific')
     starts_at = models.DateTimeField(verbose_name="Starts at (local)")
@@ -61,7 +62,6 @@ class Event(models.Model):
         return ends_at_local
     get_ends_at.short_description = "Ends at (%s)" % timezone.get_current_timezone_name()
 
-
 class Participant(models.Model):
     name = models.CharField(max_length=150)
     phone = PhoneNumberField()
@@ -76,11 +76,13 @@ class Participant(models.Model):
     def attending(self):
         return [a for a in self.attendance_set.select_related('event').order_by('event__ends_at')]
 
+
 class Attendance(models.Model):
     participant = models.ForeignKey(Participant)
     event = models.ForeignKey(Event)
     confirmed = models.NullBooleanField(default=None, blank=True, null=True)
     rating = models.IntegerField(default=None, blank=True, null=True)
+    crm_id = models.IntegerField(null=True)
 
     class Meta:
         verbose_name_plural = "attending"

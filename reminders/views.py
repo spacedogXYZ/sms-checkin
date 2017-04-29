@@ -5,6 +5,7 @@ from twilio import twiml
 from twilio.twiml.messaging_response import MessagingResponse
 
 from django.shortcuts import render
+import django_q
 
 from events.models import Participant
 from messages.decorators import twilio_view
@@ -35,12 +36,13 @@ def incoming_message(request):
         # check in
         if message.is_yes():
             attendance.confirmed = True
-            attendance.save()
+            # call the affinity task async, so we can respond immediately to the message
+            django_q.tasks.async('events.tasks.sync_attendance_to_affinity', attendance)
             r.message("Thanks for checking in to %s!" % attendance.event.name)
             return r
         elif message.is_no():
             attendance.confirmed = False
-            attendance.save()
+            attendance.sync()
             r.message("Sorry you won't be able to make it to %s." % attendance.event.name)
             return r
         else:
