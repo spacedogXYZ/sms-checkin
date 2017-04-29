@@ -51,7 +51,7 @@ def incoming_message(request):
         if not attendance.rating:
             # rate event
             if message.is_number():
-                attendance.rating = int(message)
+                attendance.rating = int(message.body)
                 attendance.save()
                 r.message("Thanks for rating the event.")
                 return r
