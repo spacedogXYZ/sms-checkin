@@ -30,7 +30,7 @@ def attendance_prompts_schedule(sender, **kwargs):
 def attendance_prompts_clear(sender, **kwargs):
     attendance = kwargs['instance']
     logger.info('attendance_prompts_clear: %s' % attendance.id)
-    tasks.schedule_clear_prompts(attendance.id)
+    tasks.schedule_clear_prompts(attendance)
 
 @receiver(update_event)
 @receiver(post_save, sender=Event)
