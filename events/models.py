@@ -47,10 +47,15 @@ class Event(models.Model):
         """Returns event.starts_at in specified event.time_zone"""
         # NOTE: don't just force timezone into datetime
         # DST will mess it up, http://bugs.python.org/issue22994
-        # use time_zone.localize instead
+        # use time_zone.localize and normalize instead
+
+        # clear existing tzinfo (which was UTC from server), making a naive datetime
         starts_at_naive = self.starts_at.replace(tzinfo=None)
+        # use timezone.localize to add the user's correct tzinfo
         starts_at_local = self.time_zone.localize(starts_at_naive)
-        return starts_at_local
+        # normalize to apply DST rules
+        starts_at_normal = self.time_zone.normalize(starts_at_local)
+        return starts_at_normal
     get_starts_at.short_description = "Starts at (%s)" % timezone.get_current_timezone_name()
     # this displays in django admin, which converts to server time before display
 
@@ -58,7 +63,8 @@ class Event(models.Model):
         """Returns event.ends_at in specified event.time_zone"""
         ends_at_naive = self.ends_at.replace(tzinfo=None)
         ends_at_local = self.time_zone.localize(ends_at_naive)
-        return ends_at_local
+        ends_at_normal = self.time_zone.normalize(ends_at_local)
+        return ends_at_normal
     get_ends_at.short_description = "Ends at (%s)" % timezone.get_current_timezone_name()
 
 
