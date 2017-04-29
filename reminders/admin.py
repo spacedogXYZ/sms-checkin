@@ -27,6 +27,7 @@ class MessageForm(forms.ModelForm):
 
 
 class MessageAdmin(admin.ModelAdmin):
+    list_display = ('to_participant', 'body', 'sent_at', 'status')
     form = MessageForm
 
     # remove add/change/delete permissions from admin
@@ -34,9 +35,9 @@ class MessageAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
     def has_change_permission(self, request, obj=None):
-        return True
+        return True # so we can see the messages, but all fields are readonly
     def has_delete_permission(self, request, obj=None):
-        return True
+        return False
 
 admin.site.register(Prompt, PromptAdmin)
 admin.site.register(Message, MessageAdmin)
