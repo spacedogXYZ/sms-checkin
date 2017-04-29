@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from django.utils.html import format_html
 from django import forms
 
 from .models import Prompt, Message
@@ -17,9 +18,10 @@ class PromptAdmin(admin.ModelAdmin):
 class MessageForm(forms.ModelForm):
     # read-only form for admin
     def __init__(self, *args, **kwargs):
-        super(ItemForm, self).__init__(*args, **kwargs)
+        super(MessageForm, self).__init__(*args, **kwargs)
         for field in self.fields: 
             self.fields[field].widget.attrs['readonly'] = True
+            self.fields[field].widget.attrs['disabled'] = True
 
     class Meta:
         model = Message
@@ -27,8 +29,16 @@ class MessageForm(forms.ModelForm):
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('to_participant', 'body', 'sent_at', 'status')
+    list_display = ('display_participant_link', 'body', 'sent_at', 'status')
     form = MessageForm
+
+    def display_participant_link(self, obj):
+        return format_html(
+            '<a href="{}">%s</a>' % obj.to_participant,
+            "/admin/events/participant/%s/" % obj.to_participant.id,
+        )
+    display_participant_link.short_description = "Participant"
+
 
     # remove add/change/delete permissions from admin
     # because we will only create Message objects via scheduled jobs
