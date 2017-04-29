@@ -69,6 +69,8 @@ class Event(models.Model):
 
 
 class Participant(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+
     name = models.CharField(max_length=150)
     phone = PhoneNumberField()
     email = models.EmailField()

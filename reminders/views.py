@@ -24,6 +24,9 @@ def incoming_message(request):
     except Participant.DoesNotExist:
         r.message("You do not seem to be signed up to use this system. Please contact info@affinity.works")
         return r
+    except Participant.MultipleObjectsReturned:
+        # pick the most recently created
+        participant = Participant.objects.filter(phone=twilio_request.from_).order_by('-created')[0]
 
     if not participant.attending:
         r.message("Sorry, you do not seem to be attending any upcoming events.")
