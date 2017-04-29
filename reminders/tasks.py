@@ -33,12 +33,12 @@ def schedule_attendance_prompts(attendance):
     # set prompt send times, with minutes offset, in UTC
     first_prompt_next_run = arrow.get(event.get_starts_at()).replace(minutes=+event.prompt_before.minutes_offset)
     first_prompt_schedule.next_run = first_prompt_next_run.to(get_current_timezone()).datetime
-    first_prompt_schedule.repeats = 0
+    first_prompt_schedule.repeats = -1 # means delete after executing
     logger.info('first_prompt_scheduled at: %s' % first_prompt_schedule.next_run)
     
     second_prompt_next_run = arrow.get(event.get_ends_at()).replace(minutes=+event.prompt_after.minutes_offset)
     second_prompt_schedule.next_run = second_prompt_next_run.to(get_current_timezone()).datetime
-    second_prompt_schedule.repeats = 0
+    second_prompt_schedule.repeats = -1
     logger.info('second_prompt_schedule at: %s' % second_prompt_schedule.next_run)
 
     first_prompt_schedule.save()

@@ -78,7 +78,7 @@ def twilio_view(f):
 
             # Forgery check
             try:
-                validator = RequestValidator(settings['TWILIO_AUTH_TOKEN'])
+                validator = RequestValidator(settings.TWILIO_AUTH_TOKEN)
                 url = request.build_absolute_uri()
                 signature = request.META['HTTP_X_TWILIO_SIGNATURE']
             except (AttributeError, KeyError):
