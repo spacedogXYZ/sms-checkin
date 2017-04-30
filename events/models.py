@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
+
 from timezone_field import TimeZoneField
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -83,7 +83,7 @@ class Participant(models.Model):
     @property
     def attending(self):
         """ all attendances for a participant, ordered by event end times (in the future) descending """
-        future_attendances = self.attendance_set.select_related('event').filter(event__ends_at__gte=datetime.now())
+        future_attendances = self.attendance_set.select_related('event').filter(event__ends_at__gte=timezone.now())
         future_attendances.order_by('-event__ends_at')
 
 class Attendance(models.Model):
