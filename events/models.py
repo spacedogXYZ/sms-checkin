@@ -82,8 +82,9 @@ class Participant(models.Model):
 
     @property
     def attending(self):
-        """ all attendances for a participant, ordered by event end times (in the future) descending """
-        future_attendances = self.attendance_set.select_related('event').filter(event__ends_at__gte=timezone.now())
+        """ all attendances for a participant, ordered by event end times descending """
+        future_attendances = self.attendance_set.select_related('event')
+        # TODO filter out attendances in the past #.filter(event__ends_at__gte=timezone.now())
         return future_attendances.order_by('-event__ends_at')
 
 class Attendance(models.Model):
