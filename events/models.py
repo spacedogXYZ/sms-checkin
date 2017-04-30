@@ -84,7 +84,7 @@ class Participant(models.Model):
     def attending(self):
         """ all attendances for a participant, ordered by event end times (in the future) descending """
         future_attendances = self.attendance_set.select_related('event').filter(event__ends_at__gte=timezone.now())
-        future_attendances.order_by('-event__ends_at')
+        return future_attendances.order_by('-event__ends_at')
 
 class Attendance(models.Model):
     participant = models.ForeignKey(Participant)
